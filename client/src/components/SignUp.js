@@ -1,16 +1,67 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { setAxiosHeaders } from '../util'
 
 class SignUp extends Component{
-  render(){
-    return (
-      <div>
-        <h1>
-          Hello from SignUp!
-        </h1>
-      </div>
-    )
+  constructor(){
+   super();
+   this.state = {
+       email: '',
+       password: '',
+       password_confirmation: '',
+       redirect: false
+       
+    }
   }
+
+   _signUp = async (e) => {
+   e.preventDefault();
+   const payload = {
+     email: this.state.email,
+     password: this.state.password,
+     password_confirmation: this.state.password_confirmation
+   }
+   const response = await axios.post('/auth')
+   console.log(response.data);
+   console.log(response.headers);
+   this.setState({redirect: true})
+ }
+
+ _signIn = (e) => {
+   e.preventDefault();
+   this.setState({redirect: true})
+ }
+
+ _handleChange = (e) => {
+   const newState = {...this.state};
+   newState[e.target.name] = e.target.value;
+   this.setState(newState);
+ }
+
+ render() {
+   if (this.state.redirect){
+     return <redirect to="/" />
+   }
+   return (
+     <div>
+       <form onSubmit={this._signUp}>
+         <div>
+           <label htmlFor="email">E-mail: </label>
+           <input onChange={this._handleChange} type="text" name="email" value={this.state.email} />
+         </div>
+         <div>
+           <label htmlFor="password">Password: </label>
+           <input onChange={this._handleChange} type="text" name="password" value={this.state.password} />
+         </div>
+         <div>
+           <label htmlFor="password">Confirm Password: </label>
+           <input onChange={this._handleChange} type="text" name="password_confirmation" value={this.state.password_confirmation} />
+         </div>
+         
+         <button>Sign Up</button>
+       </form>
+     </div>
+   );
+ }
 }
 
-
-export default SignUp
+export default SignUp;
