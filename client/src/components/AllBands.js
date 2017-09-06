@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import ArtistCard from './ArtistCard';
+import BandCard from './BandCard';
 import styled from 'styled-components';
 
-const ArtistListStyles = styled.div`
+const BandListStyles = styled.div`
   margin: 20px 5%;
   width: 90%;
   display: flex;
@@ -11,24 +11,24 @@ const ArtistListStyles = styled.div`
   flex-wrap: wrap;
 `;
 
-class AllArtists extends Component{
+class AllBands extends Component{
   constructor(){
     super();
     this.state = {
       error: '',
-      artists: []
+      Bands: []
     }
   }
 
   componentWillMount(){
-    this._fetchArtists();
+    this._fetchBands();
   }
 
-  _fetchArtists = async () => {
+  _fetchBands = async () => {
     try {
-      const response = await axios.get('/api/artists');
-      const artists = response.data;
-      this.setState({artists});
+      const response = await axios.get('/api/Bands');
+      const Bands = response.data;
+      this.setState({Bands});
     } catch (err) {
       this.setState({error: err})
     }
@@ -39,13 +39,13 @@ class AllArtists extends Component{
       return <h1>{this.state.error.message}</h1>
     }
     return (
-      <ArtistListStyles>
-        {this.state.artists.map((artist) => (
-          <ArtistCard key={artist.id} artist={artist} />
+      <BandListStyles>
+        {this.state.Bands.map((Band) => (
+          <BandCard key={Band.id} Band={Band} />
         ))}
-      </ArtistListStyles>
+      </BandListStyles>
     )
   }
 }
 
-export default AllArtists;
+export default AllBands;

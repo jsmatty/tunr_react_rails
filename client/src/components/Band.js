@@ -2,41 +2,41 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 
-const ArtistStyles = styled.div`
+const BandStyles = styled.div`
   img {
     max-height: 400px;
     width: 100%;
   }
 `;
 
-class Artist extends Component{
+class Band extends Component{
   constructor(){
     super();
     this.state = {
-      artist: {},
+      band: {},
       songs: []
     }
   }
 
   componentWillMount(){
-    this._fetchArtistAndSongs();
+    this._fetchBandAndSongs();
   }
 
-  _fetchArtistAndSongs = async () => {
+  _fetchBandAndSongs = async () => {
     const id = this.props.match.params.id;
-    const res = await axios.get(`/api/artists/${id}`)
+    const res = await axios.get(`/api/bands/${id}`)
     this.setState({
-      artist: res.data.artist,
+      band: res.data.band,
       songs: res.data.songs
     })
   }
 
   render(){
     return (
-      <ArtistStyles>
-        <img src={this.state.artist.photo_url} />
-        <h1>{this.state.artist.name}</h1>
-        <h4>Nationality: {this.state.artist.nationality}</h4>
+      <BandStyles>
+        <img src={this.state.band.photo_url} />
+        <h1>{this.state.band.name}</h1>
+        <h4>Nationality: {this.state.band.nationality}</h4>
         <h3>Songs</h3>
         {this.state.songs.map(song => (
           <div key={song.id}>
@@ -45,9 +45,9 @@ class Artist extends Component{
             {/* <audio controls src={song.preview_url}></audio> */}
           </div>
         ))}
-      </ArtistStyles>
+      </BandStyles>
     )
   }
 }
 
-export default Artist
+export default Band
